@@ -10,7 +10,7 @@ services:
       - LOKI_URL=${LOKI_URL}
       - SERVER_ID=12345
     volumes:
-      - ./configs/fluentbit/fluent-bit.test.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./configs/fluentbit/fluent-bit.extra.conf:/fluent-bit/etc/fluent-bit.conf
       - ./configs/fluentbit/parsers/:/fluent-bit/etc/parsers/
       - ./error-logs/:/fluent-bit/etc/error-logs/
     ports:
