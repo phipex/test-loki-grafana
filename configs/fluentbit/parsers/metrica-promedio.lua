@@ -52,7 +52,7 @@ function promedioCPU(tag, timestamp, record)
         local resultado = {}
         resultado["avg_user_p"]=avg_user_p
         resultado["avg_system_p"]=avg_system_p
-        tprint(resultado)
+--        tprint(resultado)
         return 1, timestamp, resultado
     else
         return -1, 0, 0 -- drop the log
@@ -73,7 +73,7 @@ function promedioMen(tag, timestamp, record)
       local resultado = {}
       resultado["avg_swap"]=avg_swap
       resultado["avg_men"]=avg_men
-      tprint(resultado)
+--      tprint(resultado)
       return 1, timestamp, resultado
   else
       return -1, 0, 0 -- drop the log
@@ -89,6 +89,7 @@ function avgMaxCpu(tag, timestamp, record)
         
     local user_p = record["avg_user_p"]
     local system_p = record["avg_system_p"]  
+    --print(user_p , limit_user_p , system_p ,limit_system_p)
     if(user_p >= limit_user_p or system_p >=limit_system_p) then
       return code, timestamp, record
     else
@@ -97,19 +98,19 @@ function avgMaxCpu(tag, timestamp, record)
 end
 
 function avgMaxMen(tag, timestamp, record)
-  tprint(record)
+--  tprint(record)
   local new_record = record
   local swapTotal = record["Swap.total"]
   local swapUsed = record["Swap.used"]
   new_record["swap"] = (100*swapUsed)/swapTotal
-  print(  new_record["swap"] , swapUsed ,swapTotal)
+--  print(  new_record["swap"] , swapUsed ,swapTotal)
 
 
   local menTotal = record["Mem.total"]
   local menFree = record["Mem.free"]
   local menUsed = menTotal-menFree
   new_record["men"] = (100*menUsed)/menTotal
-  print(new_record["men"] , menUsed,menTotal)
+  --print(new_record["men"] , menUsed,menTotal)
 
   local code, timestamp, record = promedioMen(tag, timestamp, new_record)
   if code ~= 1 then
@@ -119,9 +120,9 @@ function avgMaxMen(tag, timestamp, record)
   --print(limit_swag, limit_men)    
   local swag = record["avg_swap"]
   local men = record["avg_men"]
-  print(swag , limit_swag , men , limit_men)  
---  if(swag >= limit_swag or men >= limit_men) then
-  if(swag >= limit_swag) then
+--  print(swag , limit_swag , men , limit_men)  
+  if(swag >= limit_swag or men >= limit_men) then
+--  if(swag >= limit_swag) then
     return code, timestamp, record
   else
     return -1, 0, 0 -- drop the log

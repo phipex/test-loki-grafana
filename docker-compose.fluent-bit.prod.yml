@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  fluent-bit:
+    tty: true
+    #image: grafana/fluent-bit-plugin-loki:main-e2ed1c0
+    image: phipex/fluent-bit-plugin-loki:v1
+    container_name: fluent-bit
+    environment:
+      - LOKI_URL=${LOKI_URL}
+      - SERVER_ID=12345
+    volumes:
+      - ./error-logs/:/fluent-bit/etc/error-logs/
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+    networks:
+      - network
+
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
